@@ -5,22 +5,28 @@ using namespace std;
 class Solution {
 public:
     int maxArea(vector<int>& height) {
-        int maxSoFar = 0;
-        int maxI = 0;
-        int maxArea = INT32_MIN;
+        int ans = 0;
+        int i=0;
+        int j = height.size()-1;
 
-        int i=1;
-        for (int x: height){
-            if (x>maxSoFar){
-                maxArea = max((i-maxI)*maxSoFar,maxArea);
-                maxSoFar=x;
-                maxI=i;
-            }
-            else{
-                maxArea = max((i-maxI)*x,maxArea);
-            }
-            i+=1;
+        while(i<j){
+            int h = min(height[i],height[j]);
+            ans = max(ans,(j-i)*h);
+            while(i<height.size() and height[i]<=h)
+                i++;
+
+            while(j>=0 and height[j]<=h)
+                j--;
         }
-        return maxArea;
+        return ans;
     }
 };
+
+int main(int argc, char const *argv[])
+{
+    vector<int> v = {2,1};
+    Solution o;
+    cout<<o.maxArea(v)<<endl;
+    
+    return 0;
+}
